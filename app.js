@@ -6,17 +6,21 @@ const morgan = require('morgan');
 const connectDB = require('./db/db');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
+
+
+
+// Debug declaration
 const startupDebugger = require('debug')('app:startup');
 
 
 
 //Middleware
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-if(process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
   app.use(morgan('tiny'));
-  startupDebugger('App started');
+  startupDebugger('System is running on development environment');
 }
 
 
@@ -34,4 +38,4 @@ app.use('/api/users', require('./routes/api/users'));
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {console.log(`Listening to port ${port}`)});
+app.listen(port, () => { console.log(`Listening to port ${port}`) });
