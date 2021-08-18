@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const dbDebugger = require('debug')('app:dbDebugger')
 
-const connectDB = () => {
+const connectDB = async () => {
   try {
-    mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true}, () => {dbDebugger('Connected to DB')});
+    mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/ndub-it-stock', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, () => { dbDebugger('Connected to DB') });
   } catch (error) {
     dbDebugger(error.message);
     process.exit(1);
