@@ -23,10 +23,16 @@ const stockSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
       },
+      stockIn: {
+        type: Number
+      },
+      stockOut: {
+        type: Number
+      },
       invoiceNo: {
         type: String,
         required: function() {
-          
+          return !!(this.stockIn);
         }
       }
     }
