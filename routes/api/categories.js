@@ -46,8 +46,9 @@ router.get('/:id', async (req, res) => {
 				}
 			]
 		});
-		const category = await Category.findById(req.params.id);
-		if (!category) return res.status(404)
+		const category = await Category.findOne({_id: req.params.id});
+		if (!category) return res.status(404).send('Category not found');
+		res.status(200).send(category);
 	} catch (error) {
 		console.error(_.pick(error, ['name', 'message']));
 		res.status(400).send(_.pick(error, ['name', 'message']));
