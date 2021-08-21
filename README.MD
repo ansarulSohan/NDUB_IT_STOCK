@@ -8,6 +8,6 @@ To initiate, install mongoDB locally, or use mongoDB Atlas connection string ( s
 
 Execute the initiate.sh file using Bash/Powershell to make the project ready to work with.
 ```console
-foo@bar:~$ ./initiate.sh
+./initiate.sh
 ```
 The sample folder contains the necessary scripts for DB import and other actions required. 

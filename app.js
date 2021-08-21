@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
   res.send('API running');
 });
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/categories', require('./routes/api/categories'));
 
 
 
