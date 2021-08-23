@@ -8,9 +8,12 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 
+//DB
+connectDB();
 
 // Debug declaration
 const startupDebugger = require('debug')('app:startup');
+startupDebugger(`App is running on ${process.env.NODE_ENV || 'development'} environment`);
 
 
 
@@ -20,12 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
   app.use(morgan('tiny'));
-  startupDebugger('System is running on development environment');
 }
 
 
-//DB
-connectDB();
 
 
 //Routes

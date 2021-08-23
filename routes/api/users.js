@@ -4,6 +4,17 @@ const _ = require('lodash');
 const router = require('express').Router();
 
 router.get('/', async (req, res) => {
+  const pageSize = Number(req.query.page) || 10;
+	const pageNumber = Number(req.query.page) || 1;
+
+	const sort = req.query.sort === 'desc' ? req.query.sort : 'asc';
+
+	const searchParameter = {}
+
+	req.query.name ? searchParameter.name = {
+		$regex: req.query.name,
+		$option: 'i'
+	} : {};
   try {
     const user = await User.find();
     res.status(200).send(user);
@@ -27,7 +38,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const result = await validateUser(req.body);
-    if(result.error) return res.status(400).send(error.details[0].message);
+    if(result.error) return res.status(400).send(result.error.details[0].message);
 
     let user = await User.findOne({email: req.body.email});
     if(user) return res.status(400).send('User already exists. ');
@@ -46,6 +57,7 @@ router.post('/', async (req, res) => {
     res.status(200).send(_.pick(user, ['_id', 'name', 'email']));
 
   } catch (error) {
+    console.error(error.message);
     res.status(400).send(error.message);
   }
 });

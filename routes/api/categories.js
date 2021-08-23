@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 		});
 		res.status(200).json({ categories, count, pageNumber, pages: Math.ceil(count / pageSize) });
 	} catch (error) {
-		console.log(_.pick(error, ['name', 'message']));
+		console.log(_.pick(error, ['name', 'message', 'stack']));
 		res.status(400).send(_.pick(error, ['name', 'message']));
 	}
 });
@@ -47,10 +47,16 @@ router.get('/:id', async (req, res) => {
 			]
 		});
 		const category = await Category.findOne({_id: req.params.id});
-		if (!category) return res.status(404).send('Category not found');
+		if (!category) return res.status(404).json({
+			errors: [
+				{
+					message: 'Catagory not found'
+				}
+			]
+		});
 		res.status(200).send(category);
 	} catch (error) {
-		console.error(_.pick(error, ['name', 'message']));
+		console.error(_.pick(error, ['name', 'message', 'stack']));
 		res.status(400).send(_.pick(error, ['name', 'message']));
 	}
 });
