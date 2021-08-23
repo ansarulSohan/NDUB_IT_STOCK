@@ -34,7 +34,33 @@ const stockSchema = new mongoose.Schema({
         required: function() {
           return !!(this.stockIn);
         }
+      },
+      deliveredTo: {
+        type: String,
+        required: function(){
+          return !!this.stockOut;
+        }
+      },
+      hash: {
+        type: String,
+        required: true
+      },
+      previousHash: {
+        type: String,
+        required: true
+      },
+      nonce: {
+        type: Number,
+        default: 0
       }
     }
-  ]
+  ],
+  date: {
+    type: Date,
+    default: Date.now()
+  }
 })
+
+const Stock = mongoose.model('Stock', stockSchema);
+
+module.exports = { Stock }
