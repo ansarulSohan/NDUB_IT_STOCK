@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 const passwordComplexity = require('joi-password-complexity');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 
 const userSchema = new mongoose.Schema({
@@ -20,9 +22,18 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+    required: true
   }
 });
 
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign({ user: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
+  return token;
+}
 const User = mongoose.model('User', userSchema);
 
 const validateUser = async (user) => {
@@ -36,10 +47,10 @@ const validateUser = async (user) => {
       upperCase: 1,
       numeric: 1,
       requirementCount: 3
-    }).required(),
+    }).required()
   });
 
   return await schema.validateAsync(user);
 }
 
-module.exports = {User, validateUser};
+module.exports = { User, validateUser };

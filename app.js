@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const config = require('config');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./db/db');
@@ -10,6 +11,11 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 //DB
 connectDB();
+
+if (!config.get('jwtPrivateKey')) {
+  console.error('FATAL ERROR: jwtPrivateKey is not defined');
+  process.exit(1);
+}
 
 // Debug declaration
 const startupDebugger = require('debug')('app:startup');
@@ -32,6 +38,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
 app.get('/', (req, res) => {
   res.send('API running');
 });
+app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/categories', require('./routes/api/categories'));
 
