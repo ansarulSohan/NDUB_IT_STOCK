@@ -2,8 +2,10 @@ const router = require('express').Router();
 const { Category, validateCatagory } = require('../../Models/Category');
 const _ = require('lodash');
 const mongoose = require('mongoose');
+const auth = require('../../middlewares/auth');
+const authAdmin = require('../../middlewares/authAdmin');
 
-router.get('/', async (req, res) => {
+router.get('/', auth, authAdmin, async (req, res) => {
 
 	const pageSize = Number(req.query.page) || 10;
 	const pageNumber = Number(req.query.page) || 1;
@@ -46,7 +48,7 @@ router.get('/:id', async (req, res) => {
 				}
 			]
 		});
-		const category = await Category.findOne({_id: req.params.id});
+		const category = await Category.findOne({ _id: req.params.id });
 		if (!category) return res.status(404).json({
 			errors: [
 				{

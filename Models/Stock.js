@@ -31,15 +31,19 @@ const stockSchema = new mongoose.Schema({
       },
       invoiceNo: {
         type: String,
-        required: function() {
+        required: function () {
           return !!(this.stockIn);
         }
       },
       deliveredTo: {
         type: String,
-        required: function(){
+        required: function () {
           return !!this.stockOut;
         }
+      },
+      signedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
       },
       hash: {
         type: String,
