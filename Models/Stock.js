@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const mongoose = require('mongoose');
 
 
@@ -63,8 +64,17 @@ const stockSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   }
-})
+});
 
 const Stock = mongoose.model('Stock', stockSchema);
 
-module.exports = { Stock }
+const validateStock = (item) => {
+  const schema = Joi.object({
+    item: Joi.string().required().max(50).min(2),
+    category: Joi.objectId().required()
+  });
+
+  return schema.validate(item);
+}
+
+module.exports = { Stock, validateStock }
