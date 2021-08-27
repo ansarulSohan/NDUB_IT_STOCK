@@ -1,3 +1,4 @@
+const { SHA256 } = require('crypto-js');
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
@@ -75,6 +76,13 @@ const validateStock = (item) => {
   });
 
   return schema.validate(item);
+}
+
+const calculateHash = (data) => {
+  let args = [...arguments];
+  let val = '';
+  val = args.map(x => val + x);
+  return SHA256(val);
 }
 
 module.exports = { Stock, validateStock }
