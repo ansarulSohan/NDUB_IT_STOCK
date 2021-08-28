@@ -3,7 +3,19 @@ const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middlewares/auth');
 const router = require('express').Router();
+
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password -isAdmin');
+    console.log(user);
+    res.status(200).send(user);
+  } catch (error) {
+    console.error(error.message, error.stack);
+    res.status(400).send(error.message);
+  }
+});
 
 router.get('/', async (req, res) => {
   const pageSize = Number(req.query.page) || 10;
@@ -17,8 +29,11 @@ router.get('/', async (req, res) => {
     $regex: req.query.name,
     $option: 'i'
   } : {};
+
+  req.query.isAdmin ? searchParameter.isAdmin = req.isAdmin : {};
   try {
-    const user = await User.find().select('_id name email isAdmin');
+    const count = await User.find({ ...searchParameter }).countDocument();
+    const user = await User.find({ ...searchParameter }).select('_id name email isAdmin');
     res.status(200).send(user);
   } catch (error) {
     res.status(400).send(error.message);
@@ -28,7 +43,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select('-password');
     if (!user) return res.status(404).send('User Not Found!');
     res.status(200).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
   } catch (error) {

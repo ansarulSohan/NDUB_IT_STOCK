@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const auth = require('../../middlewares/auth');
 const authAdmin = require('../../middlewares/authAdmin');
 
-router.get('/', auth, authAdmin, async (req, res) => {
+router.get('/', async (req, res) => {
 
 	const pageSize = Number(req.query.page) || 10;
 	const pageNumber = Number(req.query.page) || 1;
