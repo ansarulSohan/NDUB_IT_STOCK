@@ -15,18 +15,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', auth, authAdmin, async(req, res) => {
+router.post('/', auth, authAdmin, async (req, res) => {
   const { error } = validateStock(req.body);
-  if(error) return res.send(400).json(error.details);
+  if (error) return res.send(400).json(error.details);
   const stockItem = new Stock({
     ...req.body,
-  history: []
+    history: []
   });
 
   const stockHistory = {
     stockIn: 0,
     stockOut: 0,
-    signedBy: req.user.user,
+    signedBy: req.user._id,
     previousHash: SHA256('Genesis').toString(),
     nonce: 0
   }
@@ -42,7 +42,7 @@ router.post('/', auth, authAdmin, async(req, res) => {
   } catch (error) {
     console.log(error);
   }
-  
+
 });
 
 
@@ -52,7 +52,7 @@ router.put('/:id', auth, async (req, res) => {
       stockIn: req.body.stockIn,
       stockOut: 0,
       invoiceNo: req.body.invoiceNo,
-      signedBy: req.user.user,
+      signedBy: req.user._id,
       previousHash: SHA256('Genesis').toString(),
       nonce: 0
     }
@@ -66,6 +66,8 @@ router.put('/:id', auth, async (req, res) => {
   }
 })
 
+const calculatehash = (object) => {
 
+}
 
 module.exports = router;
