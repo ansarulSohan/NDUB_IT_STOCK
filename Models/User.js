@@ -47,7 +47,8 @@ const validateUser = async (user) => {
       upperCase: 1,
       numeric: 1,
       requirementCount: 3
-    }).required()
+    }).required(),
+    isAdmin: Joi.boolean()
   });
 
   return await schema.validateAsync(user);

@@ -1,0 +1,49 @@
+@hostname = localhost
+
+@port = 3000
+
+@host = {{hostname}}:{{port}}
+
+@protocol = http://
+
+@url = {{protocol}}{{host}}
+
+@contentType = application/json
+
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTJmNGExZDAwNzA3ODNiMGMxZjU5NWMiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMwNDg5MTE3fQ.XFd1TP2Ek_05kCNCz_GWs3dIUovaFbB_TbCcU3Tysow
+
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTJmNGFmYzE4NDYxODA2ODQ4Y2Q2ZmMiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2MzA0ODkzNDB9.D4U_HkuIgJ0aWeWJ_HYtRtRxt87bul0XCBqfQgZXmKc
+
+### Add an user
+POST {{url}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "name": "sohan",
+  "email": "sohan@ndub.edu.bd",
+  "password": "sohaN123",
+  "isAdmin": true
+}
+
+
+### Get all Users
+
+GET {{url}}/api/users
+x-auth-token: {{adminToken}}
+
+
+### Get profile of the user after login
+
+GET {{url}}/api/users/me
+x-auth-token: {{adminToken}}
+###
+GET {{url}}/api/users/me
+x-auth-token: {{userToken}}
+
+
+### Get a single user by id
+GET {{url}}/api/users/612f4afc18461806848cd6fc
+x-auth-token: {{adminToken}}
+###
+GET {{url}}/api/users/612f4afc18461806848cd6fc
+x-auth-token: {{userToken}}
