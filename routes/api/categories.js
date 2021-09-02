@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Category, validateCatagory } = require('../../Models/Category');
+const { Category, validateCategory } = require('../../Models/Category');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 const auth = require('../../middlewares/auth');
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
 		if (!category) return res.status(404).json({
 			errors: [
 				{
-					message: 'Catagory not found'
+					message: 'No category found'
 				}
 			]
 		});
@@ -64,11 +64,19 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {
-	const result = validateCatagory(req.body);
+router.post('/', auth, authAdmin, async (req, res) => {
+	const result = validateCategory(req.body);
 	if (result.error) return res.json(result.error.details[0].message);
 	try {
-		let category = new Category(req.body);
+		let category = await Category.find({ name: req.body.name });
+		if (!_.isEmpty(category)) return res.status(400).send({
+			error: [
+				{
+					message: "Category Already Exists"
+				}
+			]
+		})
+		category = new Category(req.body);
 		category = await category.save();
 		res.status(200).json(category);
 	} catch (error) {

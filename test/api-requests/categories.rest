@@ -1,0 +1,43 @@
+@hostname = localhost
+
+@port = 3000
+
+@host = {{hostname}}:{{port}}
+
+@protocol = http://
+
+@url = {{protocol}}{{host}}
+
+@contentType = application/json
+
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTMwOWE5MTY0MDI5OTNjYzA1MWQ5MzUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMwNTc1MjQ5fQ.fAkq0HrxV7k3XGUunK4uVY4vdhM8yaK7AO6m25FdiY0
+
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTMwOWE1MzY0MDI5OTNjYzA1MWQ5MzIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2MzA1NzUxODd9.m2d2g2tLzKw39B5Upb1TfZxCg3N5cRfAzx0ZSvskIj0
+
+### Get list of Categories
+### Public route
+GET {{url}}/api/categories
+
+
+### Get a category
+GET  {{url}}/api/categories/
+
+
+### Add a category
+### Private route
+### Access: Admin
+POST {{url}}/api/categories
+Content-Type: {{contentType}}
+x-auth-token: {{adminToken}}
+
+{
+  "name": "Toner"
+}
+###
+POST {{url}}/api/categories
+Content-Type: {{contentType}}
+x-auth-token: {{userToken}}
+
+{
+  "name": "Toner"
+}

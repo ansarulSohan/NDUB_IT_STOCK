@@ -10,9 +10,9 @@
 
 @contentType = application/json
 
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTJmNGExZDAwNzA3ODNiMGMxZjU5NWMiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMwNDg5MTE3fQ.XFd1TP2Ek_05kCNCz_GWs3dIUovaFbB_TbCcU3Tysow
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTMwOWE5MTY0MDI5OTNjYzA1MWQ5MzUiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjMwNTc1MjQ5fQ.fAkq0HrxV7k3XGUunK4uVY4vdhM8yaK7AO6m25FdiY0
 
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTJmNGFmYzE4NDYxODA2ODQ4Y2Q2ZmMiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2MzA0ODkzNDB9.D4U_HkuIgJ0aWeWJ_HYtRtRxt87bul0XCBqfQgZXmKc
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTMwOWE1MzY0MDI5OTNjYzA1MWQ5MzIiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2MzA1NzUxODd9.m2d2g2tLzKw39B5Upb1TfZxCg3N5cRfAzx0ZSvskIj0
 
 ### Add an user
 POST {{url}}/api/users
@@ -23,6 +23,15 @@ Content-Type: {{contentType}}
   "email": "sohan@ndub.edu.bd",
   "password": "sohaN123",
   "isAdmin": true
+}
+###
+POST {{url}}/api/users
+Content-Type: {{contentType}}
+
+{
+  "name": "ricky",
+  "email": "ricky@ndub.edu.bd",
+  "password": "sohaN123"
 }
 
 

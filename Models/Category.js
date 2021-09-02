@@ -12,7 +12,7 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model('Catagory', categorySchema);
 
-const validateCatagory = (category) => {
+const validateCategory = (category) => {
 	const schema = Joi.object({
 		name: Joi.string().required().min(1).max(50)
 	});
@@ -21,4 +21,4 @@ const validateCatagory = (category) => {
 }
 
 
-module.exports = { Category, validateCatagory };
+module.exports = { Category, validateCategory };

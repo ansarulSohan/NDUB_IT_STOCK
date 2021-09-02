@@ -1,5 +1,6 @@
 const { User, validateUser } = require('../../Models/User');
 const bcrypt = require('bcryptjs');
+const mongoDb = require('mongodb');
 const _ = require('lodash');
 const config = require('config');
 const auth = require('../../middlewares/auth');
@@ -8,7 +9,6 @@ const router = require('express').Router();
 router.get('/me', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password -isAdmin');
-    console.log(user);
     res.status(200).send(_.pick(user, ['_id', 'name', 'email']));
   } catch (error) {
     console.error(error.message, error.stack);
@@ -42,6 +42,14 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
   try {
+    const isValidObjectId = mongoDb.ObjectID.isValid(req.params.id);
+    if (!isValidObjectId) return res.status(400).send({
+      error: [
+        {
+          message: "ObjectID is not valid"
+        }
+      ]
+    });
     const user = await User.findById(req.params.id).select('-password');
     if (!user) return res.status(404).send('User Not Found!');
     res.status(200).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
