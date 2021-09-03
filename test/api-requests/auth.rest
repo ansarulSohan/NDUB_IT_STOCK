@@ -1,0 +1,20 @@
+@hostname = localhost
+
+@port = 3000
+
+@host = {{hostname}}:{{port}}
+
+@protocol = http://
+
+@url = {{protocol}}{{host}}
+
+@contentType = application/json
+
+
+POST {{url}}/api/auth
+Content-Type: {{contentType}}
+
+{
+  "email": "sohan@ndub.edu.bd",
+  "password": "sohaN123"
+}

@@ -48,6 +48,7 @@ router.post('/', auth, authAdmin, async (req, res) => {
 
 router.put('/:id', auth, async (req, res) => {
   try {
+    let stock = await Stock.findById(req.params.id);
     const stockHistory = {
       stockIn: req.body.stockIn,
       stockOut: 0,
@@ -57,7 +58,6 @@ router.put('/:id', auth, async (req, res) => {
       nonce: 0
     }
     stockHistory.hash = SHA256(stockHistory.stockIn + stockHistory.stockOut + stockHistory.signedBy + stockHistory.previousHash + stockHistory.nonce).toString();
-    let stock = await Stock.findById(req.params.id);
     stock.history.push(stockHistory);
     stock = await stock.save();
     res.send(stock);
